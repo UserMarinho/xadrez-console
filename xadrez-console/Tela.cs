@@ -11,15 +11,7 @@ namespace xadrez_console
                 Console.Write($"{tabuleiro.Linhas - i} ");
                 for (int j = 0; j < tabuleiro.Colunas; j++)
                 {
-                    if (tabuleiro.Peca(i, j) == null)
-                    {
-                        Console.Write("- ");
-                    }
-                    else
-                    {
-                        ImprimirPeca(tabuleiro.Peca(i, j));
-                        Console.Write(" ");
-                    }
+                    ImprimirPeca(tabuleiro.Peca(i, j));                    
                 }
                 Console.WriteLine();
             }
@@ -38,25 +30,73 @@ namespace xadrez_console
             }
             
         }
+        public static void ImprimirTabuleiro(Tabuleiro tabuleiro, bool[,] posicoesPossiveis)
+        {
+            ConsoleColor corOriginal = Console.BackgroundColor;
+            for (int i = 0; i < tabuleiro.Linhas; i++)
+            {
+                Console.Write($"{tabuleiro.Linhas - i} ");
+                for (int j = 0; j < tabuleiro.Colunas; j++)
+                {
+                    bool posicaoPossivel = posicoesPossiveis[i, j];
+                    if (posicaoPossivel)
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkGray;
+                    }
+                    ImprimirPeca(tabuleiro.Peca(i, j));
+                    Console.BackgroundColor = corOriginal;
+                }
+                Console.WriteLine();
+            }
+            char[] alfabeto = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+            Console.Write("  ");
+            for (int i = 0; i < tabuleiro.Colunas; i++)
+            {
+                if (i < alfabeto.Length)
+                {
+                    Console.Write($"{alfabeto[i]} ");
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+        }
         public static PosicaoXadrez LerPosicaoXadrez()
         {
-            string s = Console.ReadLine();
-            char coluna = s[0];
-            int linha = int.Parse(s[1] + "");
-            return new PosicaoXadrez(coluna, linha);
+            try
+            {
+                string s = Console.ReadLine();
+                char coluna = s[0];
+                int linha = int.Parse(s[1] + "");
+                return new PosicaoXadrez(coluna, linha);
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Posição inválida!");
+            }
         }
         public static void ImprimirPeca(Peca peca)
         {
-            if (peca.Cor == Cor.Branca)
+            if (peca == null)
             {
-                Console.Write(peca);
+                Console.Write("- ");
             }
             else
             {
-                ConsoleColor aux = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.Write(peca);
-                Console.ForegroundColor = aux; 
+                if (peca.Cor == Cor.Branca)
+                {
+                    Console.Write(peca);
+                }
+                else
+                {
+                    ConsoleColor corOriginal = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(peca);
+                    Console.ForegroundColor = corOriginal;
+                }
+                Console.Write(" ");
             }
         }
     }

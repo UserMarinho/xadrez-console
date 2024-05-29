@@ -28,13 +28,14 @@ namespace xadrez
             }
             else
             {
-                throw new TabuleiroException("Peça nula!");
+                throw new ApplicationException("Peça nula!");
             }
         }
         private void ColocarPecas()
         {
             Tabuleiro.ColocarPeca(new Torre(Tabuleiro, Cor.Branca), new PosicaoXadrez('c', 1).ToPosicao());
             Tabuleiro.ColocarPeca(new Torre(Tabuleiro, Cor.Preta), new PosicaoXadrez('d', 1).ToPosicao());
+            Tabuleiro.ColocarPeca(new Rei(Tabuleiro, Cor.Preta), new PosicaoXadrez('d', 5).ToPosicao());
         }
     }
 }
