@@ -11,15 +11,15 @@ namespace xadrez
             Peca peca = this.Tabuleiro.Peca(pos);
             return peca == null || peca.Cor != this.Cor;
         }
-        public override bool[,] MovimentosPossíveis()
+        public override bool[,] MovimentosPossiveis()
         {
-            bool[,] mat = new bool[this.Tabuleiro.Linhas, this.Tabuleiro.Colunas];
+            bool[,] posicoesPossiveis = new bool[this.Tabuleiro.Linhas, this.Tabuleiro.Colunas];
             Posicao pos = new Posicao(0, 0);
             // acima
             pos.DefinirValores(this.Posicao.Linha - 1, this.Posicao.Coluna);
             while (this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos))
             {
-                mat[pos.Linha, pos.Coluna] = true;
+                posicoesPossiveis[pos.Linha, pos.Coluna] = true;
                 Peca peca = this.Tabuleiro.Peca(pos);
                 if (peca != null)
                 {
@@ -32,7 +32,7 @@ namespace xadrez
             pos.DefinirValores(this.Posicao.Linha, this.Posicao.Coluna + 1);
             while (this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos))
             {
-                mat[pos.Linha, pos.Coluna] = true;
+                posicoesPossiveis[pos.Linha, pos.Coluna] = true;
                 Peca peca = this.Tabuleiro.Peca(pos);
                 if (peca != null)
                 {
@@ -45,7 +45,7 @@ namespace xadrez
             pos.DefinirValores(this.Posicao.Linha + 1, this.Posicao.Coluna);
             while (this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos))
             {
-                mat[pos.Linha, pos.Coluna] = true;
+                posicoesPossiveis[pos.Linha, pos.Coluna] = true;
                 Peca peca = this.Tabuleiro.Peca(pos);
                 if (peca != null)
                 {
@@ -58,7 +58,7 @@ namespace xadrez
             pos.DefinirValores(this.Posicao.Linha, this.Posicao.Coluna - 1);
             while (this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos))
             {
-                mat[pos.Linha, pos.Coluna] = true;
+                posicoesPossiveis[pos.Linha, pos.Coluna] = true;
                 Peca peca = this.Tabuleiro.Peca(pos);
                 if (peca != null)
                 {
@@ -67,7 +67,7 @@ namespace xadrez
                 pos.DefinirValores(pos.Linha, pos.Coluna - 1);
 
             }
-            return mat;
+            return posicoesPossiveis;
         }
         public override string ToString()
         {
