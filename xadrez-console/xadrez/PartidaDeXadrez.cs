@@ -9,12 +9,16 @@ namespace xadrez
         public int Turno { get; private set; }
         public Cor JogadorAtual { get; private set; }
         public bool Terminada { get; private set; }
+        private HashSet<Peca> Pecas;
+        private HashSet<Peca> PecasCapturadas;
         public PartidaDeXadrez()
         {
             this.Tabuleiro = new Tabuleiro(8, 8);
             Turno = 1;
-            JogadorAtual = Cor.Branca;
+            JogadorAtual = Cor.Branco;
             Terminada = false;
+            Pecas = new HashSet<Peca>();
+            PecasCapturadas = new HashSet<Peca>();
             ColocarPecas();
         }
         private void ExecutarMovimento(Posicao origem, Posicao destino)
@@ -28,11 +32,15 @@ namespace xadrez
                 peca.IncrementarQteMovimentos();
                 Peca pecaCapturada = this.Tabuleiro.RetirarPeca(destino);
                 this.Tabuleiro.ColocarPeca(peca, destino);
+                if (pecaCapturada != null)
+                {
+                    PecasCapturadas.Add(pecaCapturada);
+                }
             }
             else
             {
 
-                throw new ApplicationException("Destino inválida!");
+                throw new ApplicationException("Posição de destino inválida!");
             }
         }
         public void RealizarJogada(Posicao origem, Posicao destino)
@@ -43,13 +51,13 @@ namespace xadrez
         }
         private void MudarJogador()
         {
-            if (JogadorAtual == Cor.Branca)
+            if (JogadorAtual == Cor.Branco)
             {
-                JogadorAtual = Cor.Preta;
+                JogadorAtual = Cor.Preto;
             }
             else
             {
-                JogadorAtual = Cor.Branca;
+                JogadorAtual = Cor.Branco;
             }
         }
         public void ValidarPeca(Posicao posicao)
@@ -57,7 +65,7 @@ namespace xadrez
             Peca peca = this.Tabuleiro.Peca(posicao);
             if (peca == null)
             {
-                throw new ApplicationException("Peça Nula!");
+                throw new ApplicationException("Não há peça!");
             }
             else if (peca.Cor != JogadorAtual)
             {
@@ -80,13 +88,39 @@ namespace xadrez
             }
             return false;
         }
+        public HashSet<Peca> ObterPecasCapturadas(Cor cor)
+        {
+            HashSet<Peca> pecas = new HashSet<Peca>();
+            foreach (Peca x in PecasCapturadas)
+            {
+                if (x.Cor == cor)
+                {
+                    pecas.Add(x);
+                }
+            }
+            return pecas;
+        }
+        public HashSet<Peca> PecasEmJogo(Cor cor)
+        {
+            HashSet<Peca> pecas = new HashSet<Peca>();
+            foreach (Peca x in this.Pecas)
+            {
+                if (x.Cor == cor)
+                {
+                    pecas.Add(x);
+                }
+            }
+            pecas.ExceptWith(ObterPecasCapturadas(cor));
+            return pecas;
+        }
+        public void ColocarNovaPeca(char coluna, int linha, Peca peca)
+        {
+            this.Tabuleiro.ColocarPeca(peca, new PosicaoXadrez(coluna, linha).ParaPosicao());
+            Pecas.Add(peca);
+        }
         private void ColocarPecas()
         {
-            Tabuleiro.ColocarPeca(new Torre(Tabuleiro, Cor.Preta), new PosicaoXadrez('c', 1).ToPosicao());
-            Tabuleiro.ColocarPeca(new Torre(Tabuleiro, Cor.Preta), new PosicaoXadrez('d', 1).ToPosicao());
-            Tabuleiro.ColocarPeca(new Rei(Tabuleiro, Cor.Branca), new PosicaoXadrez('d', 5).ToPosicao());
-            Tabuleiro.ColocarPeca(new Rei(Tabuleiro, Cor.Preta), new PosicaoXadrez('c', 2).ToPosicao());
-            Tabuleiro.ColocarPeca(new Rei(Tabuleiro, Cor.Preta), new PosicaoXadrez('b', 1).ToPosicao());
+            ColocarNovaPeca('c', 1, new Peao(this.Tabuleiro, Cor.Branco));
         }
     }
 }
