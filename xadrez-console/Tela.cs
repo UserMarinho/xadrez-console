@@ -71,6 +71,11 @@ namespace xadrez_console
             Console.WriteLine();
             Console.WriteLine($"Turno: {partida.Turno}");
             Console.WriteLine($"Jogador Atual: {partida.JogadorAtual}");
+            if (partida.Xeque)
+            {
+                Console.WriteLine("XEQUE!");
+            }
+            Console.WriteLine();
             Console.WriteLine();
         }
         public static void ImprimirPartida(PartidaDeXadrez partida, bool[,] posicoesPossiveis)
@@ -81,6 +86,10 @@ namespace xadrez_console
             Console.WriteLine();
             Console.WriteLine($"Turno: {partida.Turno}");
             Console.WriteLine($"Jogador Atual: {partida.JogadorAtual}");
+            if (partida.Xeque)
+            {
+                Console.WriteLine("XEQUE!");
+            }
             Console.WriteLine();
         }
         public static void ImprimirPecasCapturadas(PartidaDeXadrez partida)
