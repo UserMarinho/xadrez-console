@@ -121,6 +121,9 @@ namespace xadrez
         private void ColocarPecas()
         {
             ColocarNovaPeca('c', 1, new Peao(this.Tabuleiro, Cor.Branco));
+            ColocarNovaPeca('d', 2, new Peao(this.Tabuleiro, Cor.Preto));
+            ColocarNovaPeca('e', 1, new Peao(this.Tabuleiro, Cor.Preto));
+            ColocarNovaPeca('f', 2, new Rei(this.Tabuleiro, Cor.Branco));
         }
     }
 }

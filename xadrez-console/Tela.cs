@@ -28,7 +28,7 @@ namespace xadrez_console
                     break;
                 }
             }
-            
+            Console.WriteLine();
         }
         public static void ImprimirTabuleiro(Tabuleiro tabuleiro, bool[,] posicoesPossiveis)
         {
@@ -61,7 +61,49 @@ namespace xadrez_console
                     break;
                 }
             }
-
+            Console.WriteLine();
+        }
+        public static void ImprimirPartida(PartidaDeXadrez partida)
+        {
+            ImprimirTabuleiro(partida.Tabuleiro);
+            Console.WriteLine();
+            ImprimirPecasCapturadas(partida);
+            Console.WriteLine();
+            Console.WriteLine($"Turno: {partida.Turno}");
+            Console.WriteLine($"Jogador Atual: {partida.JogadorAtual}");
+            Console.WriteLine();
+        }
+        public static void ImprimirPartida(PartidaDeXadrez partida, bool[,] posicoesPossiveis)
+        {
+            ImprimirTabuleiro(partida.Tabuleiro, posicoesPossiveis);
+            Console.WriteLine();
+            ImprimirPecasCapturadas(partida);
+            Console.WriteLine();
+            Console.WriteLine($"Turno: {partida.Turno}");
+            Console.WriteLine($"Jogador Atual: {partida.JogadorAtual}");
+            Console.WriteLine();
+        }
+        public static void ImprimirPecasCapturadas(PartidaDeXadrez partida)
+        {
+            Console.WriteLine("Peças capturadas: ");
+            Console.Write($"Brancas: ");
+            ImprimirConjunto(partida.ObterPecasCapturadas(Cor.Branco));
+            Console.WriteLine();
+            Console.Write($"Pretas: ");
+            ConsoleColor corOriginal = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            ImprimirConjunto(partida.ObterPecasCapturadas(Cor.Preto));
+            Console.ForegroundColor = corOriginal;
+            Console.WriteLine();
+        }
+        public static void ImprimirConjunto(HashSet<Peca> conjunto)
+        {
+            Console.Write("[ ");
+            foreach (Peca peca in conjunto)
+            {
+                Console.Write($"{peca} ");
+            }
+            Console.Write("]");
         }
         public static PosicaoXadrez LerPosicaoXadrez()
         {

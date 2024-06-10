@@ -10,11 +10,7 @@ namespace xadrez_console
             while (!partida.Terminada)
             {
                 Console.Clear();
-                Tela.ImprimirTabuleiro(partida.Tabuleiro);
-                Console.WriteLine("\n");
-                Console.WriteLine($"Turno: {partida.Turno}");
-                Console.WriteLine($"Jogador Atual: {partida.JogadorAtual}");
-                Console.WriteLine();
+                Tela.ImprimirPartida(partida);
                 try
                 {
                     Console.Write("Origem: ");
@@ -23,8 +19,7 @@ namespace xadrez_console
                     Peca peca = partida.Tabuleiro.Peca(origem);
                     bool[,] posicoesPossiveis = peca.MovimentosPossiveis();
                     Console.Clear();
-                    Tela.ImprimirTabuleiro(partida.Tabuleiro, posicoesPossiveis);
-                    Console.WriteLine("\n");
+                    Tela.ImprimirPartida(partida, posicoesPossiveis);
                     Console.Write("Destino: ");
                     Posicao destino = Tela.LerPosicaoXadrez().ParaPosicao();
                     partida.RealizarJogada(origem, destino);
