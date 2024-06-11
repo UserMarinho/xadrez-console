@@ -22,25 +22,60 @@ namespace xadrez
         {
             bool[,] posicoesPossiveis = new bool[this.Tabuleiro.Linhas, this.Tabuleiro.Colunas];
             Posicao pos = new Posicao(0, 0);
-            // acima
-            pos.DefinirValores(this.Posicao.Linha - 1, this.Posicao.Coluna);
-            if(this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos, false))
+            if (this.Cor == Cor.Branco)
             {
-                posicoesPossiveis[pos.Linha, pos.Coluna] = true;
+                // acima
+                pos.DefinirValores(this.Posicao.Linha - 1, this.Posicao.Coluna);
+                if (this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos, false))
+                {
+                    posicoesPossiveis[pos.Linha, pos.Coluna] = true;
+                }
+                pos.DefinirValores(this.Posicao.Linha - 2, this.Posicao.Coluna);
+                if (this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos, false) && QteMovimentos == 0)
+                {
+                    posicoesPossiveis[pos.Linha, pos.Coluna] = true;
+                }
+                // nordeste
+                pos.DefinirValores(this.Posicao.Linha - 1, this.Posicao.Coluna + 1);
+                if (this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos, true))
+                {
+                    posicoesPossiveis[pos.Linha, pos.Coluna] = true;
+                }
+                // noroeste
+                pos.DefinirValores(this.Posicao.Linha - 1, this.Posicao.Coluna - 1);
+                if (this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos, true))
+                {
+                    posicoesPossiveis[pos.Linha, pos.Coluna] = true;
+                }
+                return posicoesPossiveis;
             }
-            // nordeste
-            pos.DefinirValores(this.Posicao.Linha - 1, this.Posicao.Coluna + 1);
-            if (this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos, true))
+            else
             {
-                posicoesPossiveis[pos.Linha, pos.Coluna] = true;
+                // abaixo
+                pos.DefinirValores(this.Posicao.Linha + 1, this.Posicao.Coluna);
+                if (this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos, false))
+                {
+                    posicoesPossiveis[pos.Linha, pos.Coluna] = true;
+                }
+                pos.DefinirValores(this.Posicao.Linha + 2, this.Posicao.Coluna);
+                if (this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos, false) && QteMovimentos == 0)
+                {
+                    posicoesPossiveis[pos.Linha, pos.Coluna] = true;
+                }
+                // sudeste
+                pos.DefinirValores(this.Posicao.Linha + 1, this.Posicao.Coluna + 1);
+                if (this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos, true))
+                {
+                    posicoesPossiveis[pos.Linha, pos.Coluna] = true;
+                }
+                // sudoeste
+                pos.DefinirValores(this.Posicao.Linha + 1, this.Posicao.Coluna - 1);
+                if (this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos, true))
+                {
+                    posicoesPossiveis[pos.Linha, pos.Coluna] = true;
+                }
+                return posicoesPossiveis;
             }
-            // noroeste
-            pos.DefinirValores(this.Posicao.Linha - 1, this.Posicao.Coluna - 1);
-            if (this.Tabuleiro.PosicaoValida(pos) && PodeMover(pos, true))
-            {
-                posicoesPossiveis[pos.Linha, pos.Coluna] = true;
-            }
-            return posicoesPossiveis;
         }
         public override string ToString()
         {
